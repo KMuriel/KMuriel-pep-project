@@ -22,6 +22,14 @@ public class AccountService {
         {    
             return null;
         }
+        /*if (account.getUsername() != null)
+        {
+            return null;
+        }*/
         return accountDAO.createNewAccount(account);
+    }
+    public Account checkLogin(Account account)
+    {
+        return accountDAO.loginCheck(account);
     }
 }

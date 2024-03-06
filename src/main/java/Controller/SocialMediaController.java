@@ -1,7 +1,10 @@
 package Controller;
 
 import Service.AccountService;
+import Service.MessageService;
 import Model.Account;
+import Model.Message;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -15,12 +18,12 @@ import io.javalin.http.Context;
  */
 public class SocialMediaController {
     AccountService accountService;
-    //add Message Service here later
+    MessageService messageService;
 
     public SocialMediaController()
     {
         this.accountService = new AccountService();
-        //message service 
+        this.messageService = new MessageService(); 
     }
     /**
      * In order for the test cases to work, you will need to write the endpoints in the startAPI() method, as the test
@@ -32,6 +35,8 @@ public class SocialMediaController {
         app.get("example-endpoint", this::exampleHandler);
         app.post("/register", this::postAccountHandler);
         app.post("/login", this::postAccountLoginHandler);
+        app.post("/messages", this::postMessageCreationHandler);
+        //app.get("/messages", this::anotherFutureHandler);
         return app;
     }
 
@@ -57,9 +62,20 @@ public class SocialMediaController {
     private void postAccountLoginHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         Account account = mapper.readValue(ctx.body(), Account.class);
-        Account addedAccount = accountService.addAccount(account);
+        Account addedAccount = accountService.checkLogin(account);
         if(addedAccount!=null){
             ctx.json(mapper.writeValueAsString(addedAccount));
+        }else{
+            ctx.status(401);
+        }
+    }
+
+    private void postMessageCreationHandler (Context ctx) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(ctx.body(), Message.class);
+        Message createdMessage = messageService.createMessage(message);
+        if(createdMessage!=null){
+            ctx.json(mapper.writeValueAsString(createdMessage));
         }else{
             ctx.status(400);
         }
