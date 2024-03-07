@@ -36,7 +36,7 @@ public class SocialMediaController {
         app.post("/register", this::postAccountHandler);
         app.post("/login", this::postAccountLoginHandler);
         app.post("/messages", this::postMessageCreationHandler);
-        //app.get("/messages", this::anotherFutureHandler);
+        app.get("/messages", this::getAllMessagesHandler);
         return app;
     }
 
@@ -81,5 +81,8 @@ public class SocialMediaController {
         }
     }
 
+    private void getAllMessagesHandler(Context ctx){
+        ctx.json(messageService.getAllMessages());
+    }
 
 }

@@ -1,5 +1,7 @@
 package Service;
 
+import java.util.List;
+
 import DAO.MessageDAO;
 import Model.Message;
 
@@ -26,8 +28,8 @@ public class MessageService {
         
         return messageDAO.newMessage(message);
     }
-    /*public Message changeNameofThisMethod(Message message)
+    public List<Message> getAllMessages()
     {
-        return messageDAO.methodName(message);
-    }*/
+        return messageDAO.getAllMessages();
+    }
 }
