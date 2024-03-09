@@ -32,4 +32,20 @@ public class MessageService {
     {
         return messageDAO.getAllMessages();
     }
+
+    public Message getAllMessagesById(int message_id) {
+
+        return messageDAO.getAllMessagesById(message_id);
+        
+    }
+
+    public Message deleteMessage(int message_id) {
+        Message message = messageDAO.getAllMessagesById(message_id);
+        if (message == null)
+        {
+            return null;
+        }
+        messageDAO.deleteMessage(message);   
+        return message;
+    }
 }

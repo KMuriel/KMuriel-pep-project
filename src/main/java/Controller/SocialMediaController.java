@@ -37,6 +37,8 @@ public class SocialMediaController {
         app.post("/login", this::postAccountLoginHandler);
         app.post("/messages", this::postMessageCreationHandler);
         app.get("/messages", this::getAllMessagesHandler);
+        app.get("/messages/{message_id}", this::getMessagesByIdHandler);
+        app.delete("/messages/{message_id}", this::deleteMessageHandler);
         return app;
     }
 
@@ -81,8 +83,35 @@ public class SocialMediaController {
         }
     }
 
-    private void getAllMessagesHandler(Context ctx){
+    private void getAllMessagesHandler(Context ctx) throws JsonProcessingException {
         ctx.json(messageService.getAllMessages());
     }
 
+    private void getMessagesByIdHandler(Context ctx) throws JsonProcessingException {
+        Message message2 = messageService.getAllMessagesById(Integer.valueOf(ctx.pathParam("message_id")));
+        //ObjectMapper mapper = new ObjectMapper();
+        //Message message = mapper.readValue(ctx.body(), Message.class);
+        if (message2 != null)
+        {
+            //ctx.json(messageService.getAllMessagesById(message2.getMessage_id()));
+            ctx.json(message2);
+        }
+        else
+        {
+            ctx.json("");
+        }
+    }
+
+    private void deleteMessageHandler(Context ctx) throws JsonProcessingException 
+    {
+        Message message = messageService.deleteMessage(Integer.valueOf(ctx.pathParam("message_id")));
+        if (message != null)
+        {
+            ctx.json(message);
+        }
+        else
+        {
+            ctx.json("");
+        }
+    }
 }
