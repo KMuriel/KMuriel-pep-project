@@ -39,6 +39,8 @@ public class SocialMediaController {
         app.get("/messages", this::getAllMessagesHandler);
         app.get("/messages/{message_id}", this::getMessagesByIdHandler);
         app.delete("/messages/{message_id}", this::deleteMessageHandler);
+        // step 7 for later
+        app.get("/accounts/{account_id}/messages", this::getMessagesByUserHandler);
         return app;
     }
 
@@ -113,5 +115,12 @@ public class SocialMediaController {
         {
             ctx.json("");
         }
+    }
+
+    //implement step 7 here
+
+    private void getMessagesByUserHandler(Context ctx) throws JsonProcessingException
+    {
+        ctx.json(messageService.getMessagesByUser(Integer.valueOf(ctx.pathParam("account_id"))));
     }
 }

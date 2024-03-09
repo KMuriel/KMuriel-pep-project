@@ -48,4 +48,11 @@ public class MessageService {
         messageDAO.deleteMessage(message);   
         return message;
     }
+
+    // step 7 here for last
+
+    public List<Message> getMessagesByUser(int posted_by)
+    {
+        return messageDAO.getMessagesByUser(posted_by);
+    }
 }
