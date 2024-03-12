@@ -49,7 +49,19 @@ public class MessageService {
         return message;
     }
 
-    // step 7 here for last
+    public Message updateMessage(int message_id, Message message)
+    {
+        if (messageDAO.getAllMessagesById(message_id) == null)
+        {
+            return null;
+        }
+        if (message.getMessage_text().length() == 0 || message.getMessage_text().length() > 255)
+        {
+            return null;
+        }
+        messageDAO.updateMessage(message_id, message);
+        return messageDAO.getAllMessagesById(message_id);
+    }
 
     public List<Message> getMessagesByUser(int posted_by)
     {
